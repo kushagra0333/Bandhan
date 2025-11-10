@@ -671,8 +671,7 @@ class _DashboardPageState extends State<DashboardPage> {
         height: 78,
         margin: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-              colors: [Color(0xFFFFFFFF), Color(0xFFF7F9FF)]),
+          color: Colors.white, // Changed to solid white background
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
@@ -797,11 +796,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   topLeft: Radius.circular(14), topRight: Radius.circular(14)),
               child: Image.network(
                 mem['image'] ?? '',
-                height: 100, // reduced height for mobile overflow
                 fit: BoxFit.cover,
                 errorBuilder: (c, e, s) {
                   return Container(
-                    height: 100,
                     color: Colors.grey.shade200,
                     child: const Icon(Icons.person, size: 44, color: Colors.grey),
                   );
