@@ -1,0 +1,38 @@
+name: my_app
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you want to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 🔥 Firebase & Cloud dependencies
+  firebase_core: ^3.3.0
+  firebase_auth: ^5.1.0
+  cloud_firestore: ^5.2.0
+  firebase_storage: ^12.1.0
+
+  # 🖼️ Media & Utility Packages
+  image_picker: ^1.1.2
+  intl: ^0.19.0
+
+  # 🌙 UI Enhancements
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+#  assets:
+#   - assets/images/
+#   - assets/icons/
