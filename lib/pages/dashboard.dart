@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../components/navbar.dart';
+import './family_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
@@ -9,560 +13,329 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   // --- USER PROFILE ---
-  // --- USER PROFILE ---
-Map<String, String> userProfile = {
-  'name': 'Rohan Sharma',
-  'age': '28',
-  'city': 'Jaipur',
-  'bio': 'Flutter enthusiast and creative thinker who loves designing clean, user-friendly mobile apps.',
-  'occupation': 'UI/UX Designer',
-  'gotra': 'Bharadwaj',
-  'rashi': 'Virgo',
-  'imageUrl': 'https://cdn-icons-png.flaticon.com/512/4333/4333609.png',
-};
-
-// --- FAMILY MEMBERS ---
-List<Map<String, String>> familyMembers = [
-  {
-    'name': 'Ankit Sharma',
-    'relation': 'Brother',
-    'age': '31',
-    'occupation': 'Civil Engineer',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Aries',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
-  },
-  {
-    'name': 'Priya Sharma',
-    'relation': 'Sister',
-    'age': '25',
-    'occupation': 'Graphic Designer',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Libra',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922561.png',
-  },
-  {
-    'name': 'Meera Sharma',
-    'relation': 'Mother',
-    'age': '52',
-    'occupation': 'Teacher',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Cancer',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/921/921071.png',
-  },
-  {
-    'name': 'Rajesh Sharma',
-    'relation': 'Father',
-    'age': '56',
-    'occupation': 'Bank Manager',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Sagittarius',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/236/236832.png',
-  },
-  {
-    'name': 'Sneha Sharma',
-    'relation': 'Cousin',
+  Map<String, String> userProfile = {
+    'name': 'Kushagra Pandey',
     'age': '22',
-    'occupation': 'Medical Student',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Aquarius',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922561.png',
-  },
-  {
-    'name': 'Aditya Sharma',
-    'relation': 'Uncle',
-    'age': '48',
-    'occupation': 'Businessman',
-    'gotra': 'Bharadwaj',
+    'city': 'Delhi',
+    'bio':
+        'Flutter Developer passionate about creating smooth UI experiences and innovative mobile apps.',
+    'occupation': 'App Developer',
+    'gotra': 'Kashyap',
     'rashi': 'Leo',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
-  },
-  {
-    'name': 'Nidhi Sharma',
-    'relation': 'Aunt',
-    'age': '45',
-    'occupation': 'Homemaker',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Pisces',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-  },
-  {
-    'name': 'Kavya Sharma',
-    'relation': 'Cousin Sister',
-    'age': '18',
-    'occupation': 'High School Student',
-    'gotra': 'Bharadwaj',
-    'rashi': 'Gemini',
-    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922561.png',
-  },
-];
+    'imageUrl': 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+  };
 
-  // --- MOCK IMAGE PICKER (simulates picking or deleting) ---
-  Future<String?> _mockImagePickerDialog(String currentUrl) async {
-    String newUrl = currentUrl;
-    return showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Change Profile Picture"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.network(currentUrl, width: 80, height: 80),
-            const SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                  'https://cdn-icons-png.flaticon.com/512/4333/4333609.png',
-                ); // mock new pic
-              },
-              icon: const Icon(Icons.upload),
-              label: const Text("Upload New"),
-            ),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.pop(context, ''); // delete image
-              },
-              icon: const Icon(Icons.delete, color: Colors.red),
-              label: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        ),
-      ),
-    );
+  // --- FAMILY MEMBERS ---
+  List<Map<String, String>> familyMembers = [
+    {
+      'name': 'Aarav Pandey',
+      'relation': 'Brother',
+      'age': '25',
+      'occupation': 'Software Engineer',
+      'gotra': 'Kashyap',
+      'rashi': 'Leo',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
+    },
+    {
+      'name': 'Sakshi Pandey',
+      'relation': 'Sister',
+      'age': '20',
+      'occupation': 'Student',
+      'gotra': 'Kashyap',
+      'rashi': 'Capricorn',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922561.png',
+    },
+    {
+      'name': 'Rajesh Pandey',
+      'relation': 'Father',
+      'age': '52',
+      'occupation': 'Businessman',
+      'gotra': 'Kashyap',
+      'rashi': 'Taurus',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/236/236831.png',
+    },
+    {
+      'name': 'Pooja Pandey',
+      'relation': 'Mother',
+      'age': '48',
+      'occupation': 'Teacher',
+      'gotra': 'Kashyap',
+      'rashi': 'Cancer',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922565.png',
+    },
+    {
+      'name': 'Ananya Pandey',
+      'relation': 'Sister',
+      'age': '18',
+      'occupation': 'Student',
+      'gotra': 'Kashyap',
+      'rashi': 'Pisces',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922510.png',
+    },
+    {
+      'name': 'Rohit Pandey',
+      'relation': 'Cousin',
+      'age': '24',
+      'occupation': 'Engineer',
+      'gotra': 'Kashyap',
+      'rashi': 'Gemini',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
+    },
+    {
+      'name': 'Neha Pandey',
+      'relation': 'Cousin',
+      'age': '23',
+      'occupation': 'Designer',
+      'gotra': 'Kashyap',
+      'rashi': 'Virgo',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922656.png',
+    },
+    {
+      'name': 'Ramesh Pandey',
+      'relation': 'Uncle',
+      'age': '50',
+      'occupation': 'Accountant',
+      'gotra': 'Kashyap',
+      'rashi': 'Sagittarius',
+      'imageUrl': 'https://cdn-icons-png.flaticon.com/512/2922/2922655.png',
+    },
+  ];
+
+  // --- USER IMAGES SECTION ---
+  final List<dynamic> _userImages = [
+    'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
+    'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
+  ];
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final picked = await _picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      setState(() {
+        _userImages.add(File(picked.path));
+      });
+    }
   }
 
-  // --- EDIT USER PROFILE ---
-  void _editUserProfile() async {
-    final nameController = TextEditingController(text: userProfile['name']);
-    final ageController = TextEditingController(text: userProfile['age']);
-    final cityController = TextEditingController(text: userProfile['city']);
-    final bioController = TextEditingController(text: userProfile['bio']);
-    final occupationController = TextEditingController(
-      text: userProfile['occupation'],
-    );
-    final gotraController = TextEditingController(text: userProfile['gotra']);
-    final rashiController = TextEditingController(text: userProfile['rashi']);
-
-    await showDialog(
-      context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Edit Profile'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final newUrl = await _mockImagePickerDialog(
-                      userProfile['imageUrl']!,
-                    );
-                    if (newUrl != null) {
-                      setDialogState(() => userProfile['imageUrl'] = newUrl);
-                    }
-                  },
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: userProfile['imageUrl']!.isEmpty
-                        ? null
-                        : NetworkImage(userProfile['imageUrl']!),
-                    child: userProfile['imageUrl']!.isEmpty
-                        ? const Icon(Icons.person, size: 40)
-                        : null,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  controller: ageController,
-                  decoration: const InputDecoration(labelText: 'Age'),
-                  keyboardType: TextInputType.number,
-                ),
-                TextField(
-                  controller: cityController,
-                  decoration: const InputDecoration(labelText: 'City'),
-                ),
-                TextField(
-                  controller: occupationController,
-                  decoration: const InputDecoration(labelText: 'Occupation'),
-                ),
-                TextField(
-                  controller: gotraController,
-                  decoration: const InputDecoration(labelText: 'Gotra'),
-                ),
-                TextField(
-                  controller: rashiController,
-                  decoration: const InputDecoration(labelText: 'Rashi'),
-                ),
-                TextField(
-                  controller: bioController,
-                  decoration: const InputDecoration(labelText: 'Bio'),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  userProfile['name'] = nameController.text;
-                  userProfile['age'] = ageController.text;
-                  userProfile['city'] = cityController.text;
-                  userProfile['bio'] = bioController.text;
-                  userProfile['occupation'] = occupationController.text;
-                  userProfile['gotra'] = gotraController.text;
-                  userProfile['rashi'] = rashiController.text;
-                });
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-              ),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- ADD OR EDIT FAMILY MEMBER ---
-  void _addOrEditFamilyMember({Map<String, String>? member, int? index}) async {
-    final nameController = TextEditingController(text: member?['name'] ?? '');
-    final relationController = TextEditingController(
-      text: member?['relation'] ?? '',
-    );
-    final ageController = TextEditingController(text: member?['age'] ?? '');
-    final occupationController = TextEditingController(
-      text: member?['occupation'] ?? '',
-    );
-    final gotraController = TextEditingController(text: member?['gotra'] ?? '');
-    final rashiController = TextEditingController(text: member?['rashi'] ?? '');
-    String imageUrl =
-        member?['imageUrl'] ??
-        'https://cdn-icons-png.flaticon.com/512/2202/2202112.png';
-
-    await showDialog(
-      context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text(
-            member == null ? 'Add Family Member' : 'Edit Family Member',
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final newUrl = await _mockImagePickerDialog(imageUrl);
-                    if (newUrl != null) setDialogState(() => imageUrl = newUrl);
-                  },
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: imageUrl.isEmpty
-                        ? null
-                        : NetworkImage(imageUrl),
-                    child: imageUrl.isEmpty
-                        ? const Icon(Icons.person, size: 40)
-                        : null,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  controller: relationController,
-                  decoration: const InputDecoration(labelText: 'Relation'),
-                ),
-                TextField(
-                  controller: ageController,
-                  decoration: const InputDecoration(labelText: 'Age'),
-                  keyboardType: TextInputType.number,
-                ),
-                TextField(
-                  controller: occupationController,
-                  decoration: const InputDecoration(labelText: 'Occupation'),
-                ),
-                TextField(
-                  controller: gotraController,
-                  decoration: const InputDecoration(labelText: 'Gotra'),
-                ),
-                TextField(
-                  controller: rashiController,
-                  decoration: const InputDecoration(labelText: 'Rashi'),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final newMember = {
-                  'name': nameController.text,
-                  'relation': relationController.text,
-                  'age': ageController.text,
-                  'occupation': occupationController.text,
-                  'gotra': gotraController.text,
-                  'rashi': rashiController.text,
-                  'imageUrl': imageUrl,
-                };
-                setState(() {
-                  if (member == null) {
-                    familyMembers.add(newMember);
-                  } else {
-                    familyMembers[index!] = newMember;
-                  }
-                });
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-              ),
-              child: Text(member == null ? 'Add' : 'Save'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- DELETE MEMBER ---
-  void _deleteMember(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Member?'),
-        content: Text(
-          'Are you sure you want to delete ${familyMembers[index]['name']}?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() => familyMembers.removeAt(index));
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // --- UI ---
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FF),
+      backgroundColor: Colors.white, 
       appBar: AppBar(
-        title: const Text('Dashboard',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+        title: const Text('User Dashboard'),
         backgroundColor: Colors.deepPurple,
-        actions: [
-          TextButton(
-            onPressed: () => _addOrEditFamilyMember(),
-            child: const Text(
-              '+ Family Member',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                
-              ),
-            ),
-          ),
-        ],
       ),
-
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildUserProfileCard(),
-            const SizedBox(height: 20),
-            _buildFamilySection(),
+            // --- USER PROFILE CARD ---
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Profile Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(
+                      userProfile['imageUrl']!,
+                      height: 90,
+                      width: 90,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userProfile['name']!,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            const Icon(Icons.work, size: 18, color: Colors.deepPurple),
+                            const SizedBox(width: 6),
+                            Text(
+                              userProfile['occupation']!,
+                              style: const TextStyle(color: Colors.black87),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.location_on, size: 18, color: Colors.redAccent),
+                            const SizedBox(width: 6),
+                            Text(userProfile['city']!,
+                                style: const TextStyle(color: Colors.black87)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.cake, size: 18, color: Colors.pinkAccent),
+                            const SizedBox(width: 6),
+                            Text('Age: ${userProfile['age']}',
+                                style: const TextStyle(color: Colors.black87)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.star, size: 18, color: Colors.orange),
+                            const SizedBox(width: 6),
+                            Text('Rashi: ${userProfile['rashi']}',
+                                style: const TextStyle(color: Colors.black87)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.family_restroom,
+                                size: 18, color: Colors.teal),
+                            const SizedBox(width: 6),
+                            Text('Gotra: ${userProfile['gotra']}',
+                                style: const TextStyle(color: Colors.black87)),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          userProfile['bio']!,
+                          style: const TextStyle(color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // --- FAMILY MEMBERS SECTION ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Family Members',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FamilyMembersPage(familyMembers: familyMembers)),
+                    );
+                  },
+                  child: const Text('Show More',
+                      style: TextStyle(color: Colors.deepPurple)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: familyMembers.length,
+                itemBuilder: (context, index) {
+                  final member = familyMembers[index];
+                  return Container(
+                    width: 90,
+                    margin: const EdgeInsets.only(right: 12),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Image.network(
+                            member['imageUrl']!,
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          member['name']!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.black87),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // --- USER PHOTOS SECTION ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Your Photos',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                IconButton(
+                  onPressed: _pickImage,
+                  icon: const Icon(Icons.add_a_photo,
+                      color: Colors.deepPurple, size: 26),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _userImages.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemBuilder: (context, index) {
+                final img = _userImages[index];
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: img is File
+                      ? Image.file(img, fit: BoxFit.cover)
+                      : Image.network(img, fit: BoxFit.cover),
+                );
+              },
+            ),
           ],
         ),
       ),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 2),
-    );
-  }
-
-  // --- USER PROFILE CARD ---
-  Widget _buildUserProfileCard() {
-    return Card(
-      color: Colors.white,
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                userProfile['imageUrl']!,
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userProfile['name']!,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    '${userProfile['age']} yrs • ${userProfile['city']} • ${userProfile['occupation']}',
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Gotra: ${userProfile['gotra']} | Rashi: ${userProfile['rashi']}',
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    userProfile['bio']!,
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: _editUserProfile,
-                        icon: const Icon(Icons.edit, size: 16),
-                        label: const Text('Edit'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- FAMILY SECTION ---
-  Widget _buildFamilySection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Family Members',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Column(
-          children: familyMembers
-              .asMap()
-              .entries
-              .map((entry) => _buildFamilyCard(entry.value, entry.key))
-              .toList(),
-        ),
-      ],
-    );
-  }
-
-  // --- FAMILY CARD ---
-  Widget _buildFamilyCard(Map<String, String> member, int index) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 14),
-      color: Colors.white,
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipOval(
-              child: Image.network(
-                member['imageUrl']!,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    member['name']!,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    '${member['relation']} • ${member['age']} yrs • ${member['occupation']}',
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
-                  ),
-                  Text(
-                    'Gotra: ${member['gotra']} | Rashi: ${member['rashi']}',
-                    style: const TextStyle(fontSize: 12, color: Colors.black87),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => _addOrEditFamilyMember(
-                          member: member,
-                          index: index,
-                        ),
-                        icon: const Icon(Icons.edit, color: Colors.deepPurple),
-                      ),
-                      IconButton(
-                        onPressed: () => _deleteMember(index),
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      
     );
   }
 }
