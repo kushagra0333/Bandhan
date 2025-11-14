@@ -4,7 +4,6 @@ import './pages/signup.dart';
 import './pages/dashboard.dart';
 import './pages/home.dart';
 import './pages/likes.dart';
-import './pages/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/likes': (context) => const LikesPage(),
         '/dashboard': (context) => const DashboardPage(),
-        '/settings': (context) => const SettingsPage(),
       },
     );
   }

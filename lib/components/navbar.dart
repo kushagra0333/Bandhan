@@ -16,9 +16,6 @@ class BottomNavBar extends StatelessWidget {
       case 2:
         Navigator.pushReplacementNamed(context, '/dashboard');
         break;
-      case 3:
-        Navigator.pushReplacementNamed(context, '/settings');
-        break;
     }
   }
 
@@ -30,14 +27,21 @@ class BottomNavBar extends StatelessWidget {
       onTap: (index) => _onItemTapped(context, index),
       backgroundColor: Colors.white,
       selectedItemColor: Colors.deepPurpleAccent,
-      unselectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black54,
       showUnselectedLabels: true,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border), label: 'Likes'),
-        BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          icon: Icon(Icons.explore),       
+          label: 'Discover',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),     
+          label: 'Likes',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),        
+          label: 'Profile',
+        ),
       ],
     );
   }
