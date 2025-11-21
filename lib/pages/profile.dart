@@ -4,6 +4,8 @@ class Profile {
   final String age;
   final String city;
   final String job;
+  final bool isAd;
+  final String? adDescription;
 
   Profile({
     required this.image,
@@ -11,5 +13,7 @@ class Profile {
     required this.age,
     required this.city,
     required this.job,
+    this.isAd = false,
+    this.adDescription,
   });
 }

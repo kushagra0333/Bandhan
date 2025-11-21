@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {
                               Navigator.pushReplacementNamed(
                                 context,
-                                '/dashboard',
+                                '/home',
                               );
                             },
                           child: const Text(

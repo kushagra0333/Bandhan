@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  video_player: ^2.8.2
+  shared_preferences: ^2.2.2
+
   # 🔥 Firebase & Cloud dependencies
   firebase_core: ^3.3.0
   firebase_auth: ^5.1.0
@@ -40,3 +43,5 @@ flutter:
    - assets/profile3.jpg
    - assets/girl_profile.jpg
    - assets/girl2_profile.jpg
+   - assets/add.jpg
+   - assets/dummy_ad.mp4

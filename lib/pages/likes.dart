@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/navbar.dart';
 import './profile.dart';
-import './home.dart';
+import 'home.dart';
 
 class LikesPage extends StatelessWidget {
   const LikesPage({super.key});
@@ -72,7 +72,7 @@ class LikesPage extends StatelessWidget {
     );
   }
 
-  /// MATCH CARD UI
+  /// MATCH CARD
   Widget _matchCard(BuildContext context, Profile profile) {
     return GestureDetector(
       onTap: () {
@@ -122,7 +122,7 @@ class LikesPage extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color:Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -136,38 +136,42 @@ class LikesPage extends StatelessWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                    const Icon(Icons.location_on_outlined,
-                        size: 14, color: Colors.pinkAccent),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        profile.city,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.black54),
-                        overflow: TextOverflow.ellipsis,
+                      const Icon(Icons.location_on_outlined,
+                          size: 14, color: Colors.pinkAccent),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          profile.city,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black54,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.work_outline,
-                        size: 14, color: Colors.pinkAccent),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        profile.job,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.black54),
-                        overflow: TextOverflow.ellipsis,
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.work_outline,
+                          size: 14, color: Colors.pinkAccent),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          profile.job,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black54,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-            )
           ],
         ),
       ),
