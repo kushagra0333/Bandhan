@@ -5,7 +5,7 @@ import './pages/signup.dart';
 import './pages/dashboard.dart';
 import './pages/home.dart';
 import './pages/likes.dart';
-
+import './pages/welcome.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(useMaterial3: true),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(),
-        '/signup': (context) => const SignUpPage(),
+        '/': (contect) => const WelcomePage(),
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
         '/home': (context) => const HomePage(),
         '/likes': (context) => const LikesPage(),
         '/dashboard': (context) => const DashboardPage(),
