@@ -25,7 +25,7 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void nextPage() {
-    if (currentPage < 3) {
+    if (currentPage < 4) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
