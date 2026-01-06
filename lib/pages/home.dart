@@ -327,37 +327,51 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: false,
-        title: const Text(
-          "Discover",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.pink[50],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    "$_availableLikes ❤️",
-                    style: TextStyle(
-                      color: Colors.pink,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+  backgroundColor: Colors.white,
+  elevation: 0,
+  centerTitle: false,
+  title: const Text(
+    "Discover",
+    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+  ),
+  actions: [
+    Row(
+      children: [
+        // Likes pill
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.pink[50],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            "$_availableLikes ❤️",
+            style: const TextStyle(
+              color: Colors.pink,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ],
-      ),
+        ),
+
+        const SizedBox(width: 12),
+
+        // Profile icon (right-most)
+        IconButton(
+          onPressed: () {
+            // TODO: handle profile tap
+          },
+          icon: const CircleAvatar(
+            radius: 18,
+            backgroundImage: AssetImage('assets/profile.jpg'),
+          ),
+        ),
+
+        const SizedBox(width: 8),
+      ],
+    ),
+  ],
+),
+
 
       body: Stack(
         children: [

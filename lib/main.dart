@@ -6,6 +6,7 @@ import './pages/dashboard.dart';
 import './pages/home.dart';
 import './pages/likes.dart';
 import './pages/welcome.dart';
+import './pages/personal_detail.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/likes': (context) => const LikesPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/edit-details' : (context) => const PersonalDetailApp(),
       },
     );
   }
