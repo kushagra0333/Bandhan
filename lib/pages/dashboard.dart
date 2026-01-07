@@ -32,11 +32,11 @@ class _DashboardPageState extends State<DashboardPage> {
       break;
 
     case 'add_family':
-      print('Add Family Members clicked');
+      Navigator.pushNamed(context, '/add-member');
       break;
 
     case 'see_family':
-      print('See Family Members clicked');
+      Navigator.pushNamed(context, '/see-member');
       break;
   }
 }

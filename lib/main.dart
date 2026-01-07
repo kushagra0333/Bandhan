@@ -7,6 +7,8 @@ import './pages/home.dart';
 import './pages/likes.dart';
 import './pages/welcome.dart';
 import './pages/personal_detail.dart';
+import './pages/family_page.dart';
+import './pages/see_member.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
         '/likes': (context) => const LikesPage(),
         '/dashboard': (context) => const DashboardPage(),
         '/edit-details' : (context) => const PersonalDetailApp(),
+        '/add-member' :(context) => const FamilyDetailsScreen(),
+        '/see-member' :(context) => const SeeFamilyScreen(),
       },
     );
   }

@@ -18,8 +18,20 @@ class PersonalDetailApp extends StatelessWidget {
 
 /* ---------------- BASIC DETAILS SCREEN ---------------- */
 
-class BasicDetailsPage extends StatelessWidget {
+class BasicDetailsPage extends StatefulWidget {
   const BasicDetailsPage({super.key});
+
+  @override
+  State<BasicDetailsPage> createState() => _BasicDetailsPageState();
+}
+
+class _BasicDetailsPageState extends State<BasicDetailsPage> {
+  String? religion;
+  String? caste;
+  String? familyStatus;
+  String? hobbies;
+  String? subCaste;
+  DateTime? dob;
 
   @override
   Widget build(BuildContext context) {
@@ -32,31 +44,58 @@ class BasicDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-
               const Text(
                 "Basic Details",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 24),
 
-              _textField(
-                label: "Full Name",
-                hint: "Shoaib Chaudhary",
-                icon: Icons.person,
+              textField(label: "Full Name", hint: "Shoaib Chaudhary"),
+
+              dateField(
+                label: "Date of Birth",
+                date: dob,
+                onPicked: (value) => setState(() => dob = value),
               ),
-              _dateField(label: "Date of Birth"),
-              _dropdown(label: "Religion"),
-              _dropdown(label: "Caste"),
-              _dropdown(label: "Family Status"),
-              _dropdown(label: "Hobbies"),
-              _dropdown(label: "Sub Caste"),
+
+              dropdown(
+                label: "Religion",
+                value: religion,
+                items: const ["Hindu", "Muslim", "Christian"],
+                onChanged: (v) => setState(() => religion = v),
+              ),
+
+              dropdown(
+                label: "Caste",
+                value: caste,
+                items: const ["General", "OBC", "SC", "ST"],
+                onChanged: (v) => setState(() => caste = v),
+              ),
+
+              dropdown(
+                label: "Family Status",
+                value: familyStatus,
+                items: const ["Middle Class", "Upper Middle", "Rich"],
+                onChanged: (v) => setState(() => familyStatus = v),
+              ),
+
+              dropdown(
+                label: "Hobbies",
+                value: hobbies,
+                items: const ["Music", "Sports", "Reading"],
+                onChanged: (v) => setState(() => hobbies = v),
+              ),
+
+              dropdown(
+                label: "Sub Caste",
+                value: subCaste,
+                items: const ["Sub 1", "Sub 2"],
+                onChanged: (v) => setState(() => subCaste = v),
+              ),
 
               const SizedBox(height: 40),
 
-              _continueButton(
+              continueButton(
                 text: "Continue",
                 onTap: () {
                   Navigator.push(
@@ -78,14 +117,23 @@ class BasicDetailsPage extends StatelessWidget {
 
 /* ---------------- PROFESSIONAL DETAILS SCREEN ---------------- */
 
-class ProfessionalDetailsPage extends StatelessWidget {
+class ProfessionalDetailsPage extends StatefulWidget {
   const ProfessionalDetailsPage({super.key});
+
+  @override
+  State<ProfessionalDetailsPage> createState() =>
+      _ProfessionalDetailsPageState();
+}
+
+class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
+  String? employedIn;
+  String? workLocation;
+  String? state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -93,30 +141,39 @@ class ProfessionalDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-
               const Text(
                 "Professional Details",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 24),
 
-              _textField(label: "Education", hint: "MCA"),
-              _dropdown(label: "Employed In"),
-              _textField(label: "Occupation"),
-              _textField(label: "Annual Income (Rs.)"),
-              _dropdown(label: "Work Location", hint: "Delhi"),
-              _dropdown(label: "State", hint: "Delhi"),
+              textField(label: "Education", hint: "MCA"),
+              dropdown(
+                label: "Employed In",
+                value: employedIn,
+                items: const ["Private", "Government", "Business"],
+                onChanged: (v) => setState(() => employedIn = v),
+              ),
+              textField(label: "Occupation"),
+              textField(label: "Annual Income (Rs.)"),
+              dropdown(
+                label: "Work Location",
+                value: workLocation,
+                items: const ["Delhi", "Mumbai", "Pune"],
+                onChanged: (v) => setState(() => workLocation = v),
+              ),
+              dropdown(
+                label: "State",
+                value: state,
+                items: const ["Delhi", "Maharashtra"],
+                onChanged: (v) => setState(() => state = v),
+              ),
 
               const SizedBox(height: 40),
 
-              _continueButton(
+              continueButton(
                 text: "Continue",
-                onTap: () {
-                    Navigator.pushReplacementNamed(context, '/dashboard')
-                },
+                onTap: () {},
               ),
               const SizedBox(height: 20),
             ],
@@ -127,75 +184,89 @@ class ProfessionalDetailsPage extends StatelessWidget {
   }
 }
 
-/* ---------------- COMMON WIDGETS ---------------- */
+/* ---------------- REUSABLE WIDGETS ---------------- */
 
-Widget _textField({
-  required String label,
-  String? hint,
-  IconData? icon,
-}) {
+Widget textField({required String label, String? hint}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: _labelStyle),
+        Text(label, style: labelStyle),
         const SizedBox(height: 6),
         TextField(
-          decoration: _inputDecoration(
-            hint: hint,
-            prefixIcon: icon,
-          ),
+          cursorColor: primaryOrange,
+          decoration: inputDecoration(hint: hint),
         ),
       ],
     ),
   );
 }
 
-Widget _dropdown({
+Widget dropdown({
   required String label,
-  String? hint,
+  required List<String> items,
+  String? value,
+  required ValueChanged<String?> onChanged,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: _labelStyle),
+        Text(label, style: labelStyle),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
-          decoration: _inputDecoration(
-            hint: hint ?? "Select",
-          ),
-          items: const [],
-          onChanged: (value) {},
+          value: value,
+          decoration: inputDecoration(hint: "Select"),
+          items: items
+              .map(
+                (e) => DropdownMenuItem(value: e, child: Text(e)),
+              )
+              .toList(),
+          onChanged: onChanged,
         ),
       ],
     ),
   );
 }
 
-Widget _dateField({required String label}) {
+Widget dateField({
+  required String label,
+  DateTime? date,
+  required ValueChanged<DateTime> onPicked,
+}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: _labelStyle),
+        Text(label, style: labelStyle),
         const SizedBox(height: 6),
         TextField(
           readOnly: true,
-          decoration: _inputDecoration(
-            hint: "Choose Date",
+          decoration: inputDecoration(
+            hint: date == null
+                ? "Choose Date"
+                : "${date.day}/${date.month}/${date.year}",
             suffixIcon: Icons.calendar_month,
           ),
+          onTap: () async {
+            final picked = await showDatePicker(
+              context: navigatorKey.currentContext!,
+              firstDate: DateTime(1970),
+              lastDate: DateTime.now(),
+              initialDate: DateTime.now(),
+            );
+            if (picked != null) onPicked(picked);
+          },
         ),
       ],
     ),
   );
 }
 
-Widget _continueButton({
+Widget continueButton({
   required String text,
   required VoidCallback onTap,
 }) {
@@ -205,7 +276,7 @@ Widget _continueButton({
     child: ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFF26A21),
+        backgroundColor: primaryOrange,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -225,38 +296,34 @@ Widget _continueButton({
 
 /* ---------------- STYLES ---------------- */
 
-const _labelStyle = TextStyle(
+final navigatorKey = GlobalKey<NavigatorState>();
+
+const Color primaryOrange = Color(0xFFF26A21);
+
+const labelStyle = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
 );
 
-InputDecoration _inputDecoration({
+InputDecoration inputDecoration({
   String? hint,
-  IconData? prefixIcon,
   IconData? suffixIcon,
 }) {
   return InputDecoration(
     hintText: hint,
-    hintStyle: const TextStyle(color: Colors.grey),
-    prefixIcon:
-        prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
-    suffixIcon:
-        suffixIcon != null ? Icon(suffixIcon, color: Colors.grey) : null,
     filled: true,
     fillColor: Colors.white,
+    suffixIcon:
+        suffixIcon != null ? Icon(suffixIcon, color: Colors.grey) : null,
     contentPadding:
         const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.grey.shade300),
-    ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(color: Colors.grey.shade300),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Color(0xFFF26A21)),
+      borderSide: const BorderSide(color: primaryOrange, width: 1.5),
     ),
   );
 }
