@@ -12,14 +12,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   LoginStep step = LoginStep.login;
 
-  // COLORS
-  static const Color orange = Color(0xFFF47C20);
-  static const Color lightGrey = Color(0xFF9E9E9E);
-  static const Color borderColor = Color(0xFFE0E0E0);
+  final Color primaryOrange = const Color(0xFFFF7A1A);
+  final Color textDark = const Color(0xFF1F2937);
+  final Color textGrey = const Color(0xFF6B7280);
+  final Color fieldBg = const Color(0xFFF9FAFB);
+  final Color borderColor = const Color(0xFFD1D5DB);
 
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final otpCtrls = List.generate(4, (_) => TextEditingController());
+
+  bool obscurePassword = true;
 
   @override
   void dispose() {
@@ -31,339 +34,71 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: h - 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                _logo(),
-                const SizedBox(height: 24),
-                _header(),
-                const SizedBox(height: 28),
-                _content(),
-                const SizedBox(height: 24),
-              ],
-            ),
-          ),
-        ),
+  InputDecoration inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: textGrey, fontSize: 14),
+      filled: true,
+      fillColor: fieldBg,
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: borderColor),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: borderColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: primaryOrange, width: 1.5),
       ),
     );
   }
 
-  // ---------------- LOGO ----------------
-  Widget _logo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4),
-      child: Image.asset(
-        "assets/logo.png",
-        height: 64,
-        width: 64,
-      ),
-    );
-  }
-
-  // ---------------- HEADER ----------------
-  Widget _header() {
-    if (step == LoginStep.otp) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text.rich(
-            TextSpan(
-              text: "Enter ",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              children: [
-                TextSpan(
-                  text: "OTP",
-                  style: TextStyle(color: orange),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 6),
-          Text(
-            "Please enter the 4 digit OTP Code sent\non your phone number.",
-            style: TextStyle(fontSize: 14, color: lightGrey, height: 1.4),
-          ),
-        ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text.rich(
-          TextSpan(
-            text: "Welcome ",
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            children: [
-              TextSpan(
-                text: "Community",
-                style: TextStyle(color: orange),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 6),
-        Text(
-          "Please enter your sign in details.",
-          style: TextStyle(fontSize: 14, color: lightGrey),
-        ),
-      ],
-    );
-  }
-
-  // ---------------- CONTENT SWITCH ----------------
-  Widget _content() {
-    switch (step) {
-      case LoginStep.login:
-        return _loginForm();
-      case LoginStep.confirmPhone:
-        return _confirmPhone();
-      case LoginStep.otp:
-        return _otpForm();
-    }
-  }
-
-  // ---------------- LOGIN FORM ----------------
-  Widget _loginForm() {
-    return Column(
-      children: [
-        _field("Email / Phone Number", "Enter Email/Phone Number", emailCtrl),
-        const SizedBox(height: 18),
-        _field("Password", "Password", passCtrl, obscure: true),
-        const SizedBox(height: 10),
-        const Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Forgot Password?",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        const SizedBox(height: 32),
-        _terms(),
-        const SizedBox(height: 16),
-        _button("Sign In", () {
-          setState(() => step = LoginStep.confirmPhone);
-        }),
-      ],
-    );
-  }
-
-  // ---------------- CONFIRM PHONE ----------------
-  Widget _confirmPhone() {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 22),
-          decoration: BoxDecoration(
-            border: Border.all(color: orange, width: 1.4),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Column(
-            children: [
-              const Text(
-                "Sign In with phone number",
-                style: TextStyle(fontSize: 15, color: lightGrey),
-              ),
-              const SizedBox(height: 14),
-              const Text(
-                "(+91) 65485 8XX98",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 22),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () =>
-                          setState(() => step = LoginStep.login),
-                      style: OutlinedButton.styleFrom(
-                        side:
-                            const BorderSide(color: orange, width: 1.4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(
-                          color: orange,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () =>
-                          setState(() => step = LoginStep.otp),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ---------------- OTP FORM (NAVIGATES TO /home) ----------------
-  Widget _otpForm() {
-    return Column(
-      children: [
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(4, (i) => _otpBox(i)),
-        ),
-        const SizedBox(height: 26),
-        _button("NEXT", () {
-          Navigator.pushReplacementNamed(context, '/home');
-        }),
-        const SizedBox(height: 14),
-        const Text.rich(
-          TextSpan(
-            text: "Didn’t receive the code? ",
-            style: TextStyle(fontSize: 14, color: Colors.black),
-            children: [
-              TextSpan(
-                text: "Resend (30s)",
-                style: TextStyle(color: orange),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _otpBox(int i) {
-    return SizedBox(
-      width: 58,
-      height: 58,
-      child: TextField(
-        controller: otpCtrls[i],
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        keyboardType: TextInputType.number,
-        style: const TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-        decoration: InputDecoration(
-          counterText: "",
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: borderColor),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: orange, width: 2),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ---------------- COMMON WIDGETS ----------------
-  Widget _field(
+  Widget labeledField(
     String label,
     String hint,
     TextEditingController c, {
     bool obscure = false,
+    Widget? suffix,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: textDark,
           ),
         ),
         const SizedBox(height: 6),
         TextField(
           controller: c,
           obscureText: obscure,
-          decoration: InputDecoration(
-            hintText: hint,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: borderColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: orange),
-            ),
+          style: TextStyle(color: textDark),
+          decoration: inputDecoration(hint).copyWith(
+            suffixIcon: suffix,
           ),
         ),
+        const SizedBox(height: 16),
       ],
     );
   }
 
-  Widget _button(String text, VoidCallback onTap) {
+  Widget orangeButton(String text, VoidCallback onTap) {
     return SizedBox(
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: orange,
+          backgroundColor: primaryOrange,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
         child: Text(
@@ -378,24 +113,265 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _terms() {
-    return const Text.rich(
-      TextSpan(
-        text: "By clicking Sign In, you agree with our ",
-        style: TextStyle(fontSize: 12, color: lightGrey),
+  Widget header() {
+    if (step == LoginStep.otp) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          RichText(
+            text: TextSpan(
+              text: 'Enter ',
+              style: TextStyle(
+                color: textDark,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+              children: [
+                TextSpan(
+                  text: 'OTP',
+                  style: TextStyle(color: primaryOrange),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Please enter the 4 digit OTP Code sent\non your phone number.',
+            style: TextStyle(color: textGrey),
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            text: 'Welcome ',
+            style: TextStyle(
+              color: textDark,
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
+              TextSpan(
+                text: 'Community',
+                style: TextStyle(color: primaryOrange),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          'Please enter your sign in details.',
+          style: TextStyle(color: textGrey),
+        ),
+      ],
+    );
+  }
+
+  // 📄 CONTENT SWITCH
+  Widget content() {
+    switch (step) {
+      case LoginStep.login:
+        return loginForm();
+      case LoginStep.confirmPhone:
+        return confirmPhone();
+      case LoginStep.otp:
+        return otpForm();
+    }
+  }
+
+  Widget loginForm() {
+    return Column(
+      children: [
+        labeledField(
+          'Email / Phone Number',
+          'Enter Email/Phone Number',
+          emailCtrl,
+        ),
+        labeledField(
+          'Password',
+          'Password',
+          passCtrl,
+          obscure: obscurePassword,
+          suffix: IconButton(
+            icon: Icon(
+              obscurePassword
+                  ? Icons.visibility_off
+                  : Icons.visibility,
+              color: textGrey,
+            ),
+            onPressed: () {
+              setState(() {
+                obscurePassword = !obscurePassword;
+              });
+            },
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            'Forgot Password?',
+            style: TextStyle(
+              color: primaryOrange,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+        terms(),
+        const SizedBox(height: 16),
+        orangeButton('Sign In', () {
+          setState(() => step = LoginStep.confirmPhone);
+        }),
+      ],
+    );
+  }
+
+  Widget confirmPhone() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: primaryOrange),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Sign In with phone number',
+            style: TextStyle(color: textGrey),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '(+91) 65485 8XX98',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: textDark,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () =>
+                      setState(() => step = LoginStep.login),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: primaryOrange),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: primaryOrange,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: orangeButton('Next', () {
+                  setState(() => step = LoginStep.otp);
+                }),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget otpForm() {
+    return Column(
+      children: [
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(
+            4,
+            (i) => SizedBox(
+              width: 60,
+              child: TextField(
+                controller: otpCtrls[i],
+                maxLength: 1,
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                decoration:
+                    inputDecoration('').copyWith(counterText: ''),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+        orangeButton('NEXT', () {
+          Navigator.pushReplacementNamed(context, '/home');
+        }),
+        const SizedBox(height: 14),
+        Text.rich(
           TextSpan(
-            text: "Terms and Conditions",
+            text: 'Didn’t receive the code? ',
+            style: TextStyle(color: textDark),
+            children: [
+              TextSpan(
+                text: 'Resend (30s)',
+                style: TextStyle(color: primaryOrange),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget terms() {
+    return Text.rich(
+      TextSpan(
+        text: 'By clicking Sign In, you agree with our ',
+        style: TextStyle(fontSize: 12, color: textGrey),
+        children: const [
+          TextSpan(
+            text: 'Terms and Conditions',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
-          TextSpan(text: " and "),
+          TextSpan(text: ' and '),
           TextSpan(
-            text: "Privacy Policy",
+            text: 'Privacy Policy',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
         ],
       ),
       textAlign: TextAlign.center,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Image.asset('assets/logo.png', height: 60),
+              const SizedBox(height: 24),
+              header(),
+              const SizedBox(height: 28),
+              content(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class FamilyDetailsScreen extends StatelessWidget {
   const FamilyDetailsScreen({Key? key}) : super(key: key);
 
-  static const Color borderGrey = Color(0xFFBDBDBD);
   static const Color primaryOrange = Color(0xFFFF7A1A);
+  static const Color textDark = Color(0xFF1F2937);
+  static const Color textGrey = Color(0xFF6B7280);
+  static const Color fieldBg = Color(0xFFF9FAFB);
+  static const Color borderColor = Color(0xFFD1D5DB);
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +16,20 @@ class FamilyDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        centerTitle: false,
+        titleSpacing: 0,
+        iconTheme: const IconThemeData(color: textDark),
         title: const Text(
           'Family Details',
           style: TextStyle(
-            color: Colors.black,
+            color: textDark,
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
-        )
-    ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Expanded(
@@ -35,33 +39,90 @@ class FamilyDetailsScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 8),
 
-                      _label('Name'),
-                      _textField(hint: 'MCA'),
+                      labeledField(
+                        label: 'Name',
+                        field: TextField(
+                          decoration: inputDecoration('MCA'),
+                        ),
+                      ),
 
-                      const SizedBox(height: 12),
+                      labeledField(
+                        label: 'Relation',
+                        field: DropdownButtonFormField<String>(
+                          value: null,
+                          dropdownColor: Colors.white, // ✅ FIX
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: textGrey,
+                          ),
+                          decoration: inputDecoration('Select'),
+                          style: const TextStyle(
+                            color: textDark,
+                            fontSize: 14,
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'Father',
+                              child: Text(
+                                'Father',
+                                style: TextStyle(color: textDark),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Mother',
+                              child: Text(
+                                'Mother',
+                                style: TextStyle(color: textDark),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Brother',
+                              child: Text(
+                                'Brother',
+                                style: TextStyle(color: textDark),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Sister',
+                              child: Text(
+                                'Sister',
+                                style: TextStyle(color: textDark),
+                              ),
+                            ),
+                          ],
+                          onChanged: (value) {},
+                        ),
+                      ),
 
-                      _label('Relation'),
-                      _dropdown(),
+                      labeledField(
+                        label: 'Age',
+                        field: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: inputDecoration(''),
+                        ),
+                      ),
 
-                      const SizedBox(height: 12),
+                      labeledField(
+                        label: 'Profession',
+                        field: TextField(
+                          decoration: inputDecoration(''),
+                        ),
+                      ),
 
-                      _label('Age'),
-                      _textField(keyboardType: TextInputType.number),
+                      labeledField(
+                        label: 'Phone Number',
+                        field: TextField(
+                          keyboardType: TextInputType.phone,
+                          decoration: inputDecoration(''),
+                        ),
+                      ),
 
-                      const SizedBox(height: 12),
-
-                      _label('Profession'),
-                      _textField(),
-
-                      const SizedBox(height: 12),
-
-                      _label('Phone Number'),
-                      _textField(keyboardType: TextInputType.phone),
-
-                      const SizedBox(height: 12),
-
-                      _label('E-mail'),
-                      _textField(hint: 'Delhi'),
+                      labeledField(
+                        label: 'E-mail',
+                        field: TextField(
+                          decoration: inputDecoration('Delhi'),
+                        ),
+                      ),
 
                       const SizedBox(height: 20),
 
@@ -72,9 +133,9 @@ class FamilyDetailsScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
+                              backgroundColor: textDark,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                             child: const Text(
@@ -82,6 +143,7 @@ class FamilyDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -92,28 +154,25 @@ class FamilyDetailsScreen extends StatelessWidget {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/dashboard');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryOrange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/dashboard');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryOrange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                    child: const Text(
-                      'Continue',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                  ),
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -124,88 +183,61 @@ class FamilyDetailsScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  // ---------- Widgets ----------
+/* ---------------- SHARED UI (SIGNUP STYLE) ---------------- */
 
-  Widget _label(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
+Widget labeledField({
+  required String label,
+  required Widget field,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: FamilyDetailsScreen.textDark,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _textField({
-    String? hint,
-    TextInputType? keyboardType,
-  }) {
-    return TextField(
-      keyboardType: keyboardType,
-      cursorColor: primaryOrange, // 👈 Orange cursor
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 14,
-      ),
-      decoration: _inputDecoration(hint),
-    );
-  }
-
-  Widget _dropdown() {
-    return DropdownButtonFormField<String>(
-      value: null,
-      icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-      dropdownColor: Colors.white,
-      hint: const Text(
-        'Select',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-        ),
-      ),
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 14,
-      ),
-      items: const [
-        DropdownMenuItem(value: 'Father', child: Text('Father')),
-        DropdownMenuItem(value: 'Mother', child: Text('Mother')),
-        DropdownMenuItem(value: 'Brother', child: Text('Brother')),
-        DropdownMenuItem(value: 'Sister', child: Text('Sister')),
+        const SizedBox(height: 6),
+        field,
       ],
-      onChanged: (value) {},
-      decoration: _inputDecoration(null),
-    );
-  }
+    ),
+  );
+}
 
-  InputDecoration _inputDecoration(String? hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: const TextStyle(
-        color: Colors.black54,
-        fontSize: 14,
+InputDecoration inputDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    hintStyle: const TextStyle(
+      color: FamilyDetailsScreen.textGrey,
+      fontSize: 14,
+    ),
+    filled: true,
+    fillColor: FamilyDetailsScreen.fieldBg,
+    contentPadding:
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide:
+          const BorderSide(color: FamilyDetailsScreen.borderColor),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide:
+          const BorderSide(color: FamilyDetailsScreen.borderColor),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(
+        color: FamilyDetailsScreen.primaryOrange,
+        width: 1.5,
       ),
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: borderGrey),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: primaryOrange, // 👈 Orange border on focus
-          width: 1.5,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-    );
-  }
+    ),
+  );
 }
