@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import '../components/language_controller.dart';
+import '../components/language_toggle_button.dart';
 enum LoginStep { login, confirmPhone, otp }
 
 class LoginPage extends StatefulWidget {
@@ -67,22 +68,17 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: textDark,
-          ),
-        ),
+        Text(label,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: textDark)),
         const SizedBox(height: 6),
         TextField(
           controller: c,
           obscureText: obscure,
           style: TextStyle(color: textDark),
-          decoration: inputDecoration(hint).copyWith(
-            suffixIcon: suffix,
-          ),
+          decoration: inputDecoration(hint).copyWith(suffixIcon: suffix),
         ),
         const SizedBox(height: 16),
       ],
@@ -97,46 +93,33 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryOrange,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
+        child: Text(text,
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white)),
       ),
     );
   }
 
-  Widget header() {
+  Widget header(bool en) {
     if (step == LoginStep.otp) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RichText(
-            text: TextSpan(
-              text: 'Enter ',
+          Text(en ? 'Enter OTP' : 'ओटीपी दर्ज करें',
               style: TextStyle(
-                color: textDark,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                  text: 'OTP',
-                  style: TextStyle(color: primaryOrange),
-                ),
-              ],
-            ),
-          ),
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: textDark)),
           const SizedBox(height: 8),
           Text(
-            'Please enter the 4 digit OTP Code sent\non your phone number.',
+            en
+                ? 'Please enter the 4 digit OTP code sent\non your phone number.'
+                : 'आपके फोन नंबर पर भेजा गया\n4 अंकों का ओटीपी दर्ज करें।',
             style: TextStyle(color: textGrey),
           ),
         ],
@@ -146,91 +129,74 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          text: TextSpan(
-            text: 'Welcome ',
-            style: TextStyle(
-              color: textDark,
+        Text(
+          en ? 'Welcome Community' : 'समुदाय में आपका स्वागत है',
+          style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-            ),
-            children: [
-              TextSpan(
-                text: 'Community',
-                style: TextStyle(color: primaryOrange),
-              ),
-            ],
-          ),
+              color: textDark),
         ),
         const SizedBox(height: 6),
         Text(
-          'Please enter your sign in details.',
+          en
+              ? 'Please enter your sign in details.'
+              : 'कृपया अपनी साइन इन जानकारी दर्ज करें।',
           style: TextStyle(color: textGrey),
         ),
       ],
     );
   }
 
-  // 📄 CONTENT SWITCH
-  Widget content() {
+  Widget content(bool en) {
     switch (step) {
       case LoginStep.login:
-        return loginForm();
+        return loginForm(en);
       case LoginStep.confirmPhone:
-        return confirmPhone();
+        return confirmPhone(en);
       case LoginStep.otp:
-        return otpForm();
+        return otpForm(en);
     }
   }
 
-  Widget loginForm() {
+  Widget loginForm(bool en) {
     return Column(
       children: [
         labeledField(
-          'Email / Phone Number',
-          'Enter Email/Phone Number',
+          en ? 'Email / Phone Number' : 'ईमेल / फोन नंबर',
+          en ? 'Enter Email/Phone Number' : 'ईमेल / फोन नंबर दर्ज करें',
           emailCtrl,
         ),
         labeledField(
-          'Password',
-          'Password',
+          en ? 'Password' : 'पासवर्ड',
+          en ? 'Password' : 'पासवर्ड दर्ज करें',
           passCtrl,
           obscure: obscurePassword,
           suffix: IconButton(
             icon: Icon(
-              obscurePassword
-                  ? Icons.visibility_off
-                  : Icons.visibility,
-              color: textGrey,
-            ),
-            onPressed: () {
-              setState(() {
-                obscurePassword = !obscurePassword;
-              });
-            },
+                obscurePassword ? Icons.visibility_off : Icons.visibility,
+                color: textGrey),
+            onPressed: () =>
+                setState(() => obscurePassword = !obscurePassword),
           ),
         ),
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            'Forgot Password?',
+            en ? 'Forgot Password?' : 'पासवर्ड भूल गए?',
             style: TextStyle(
-              color: primaryOrange,
-              fontWeight: FontWeight.w500,
-            ),
+                color: primaryOrange, fontWeight: FontWeight.w500),
           ),
         ),
         const SizedBox(height: 24),
-        terms(),
+        terms(en),
         const SizedBox(height: 16),
-        orangeButton('Sign In', () {
-          setState(() => step = LoginStep.confirmPhone);
-        }),
+        orangeButton(en ? 'Sign In' : 'साइन इन करें',
+            () => setState(() => step = LoginStep.confirmPhone)),
       ],
     );
   }
 
-  Widget confirmPhone() {
+  Widget confirmPhone(bool en) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -240,17 +206,18 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           Text(
-            'Sign In with phone number',
+            en
+                ? 'Sign in with phone number'
+                : 'फोन नंबर से साइन इन करें',
             style: TextStyle(color: textGrey),
           ),
           const SizedBox(height: 12),
           Text(
             '(+91) 65485 8XX98',
             style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: textDark,
-            ),
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: textDark),
           ),
           const SizedBox(height: 24),
           Row(
@@ -262,23 +229,19 @@ class _LoginPageState extends State<LoginPage> {
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: primaryOrange),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 14),
+                        borderRadius: BorderRadius.circular(14)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: primaryOrange,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: Text(en ? 'Cancel' : 'रद्द करें',
+                      style: TextStyle(
+                          color: primaryOrange,
+                          fontWeight: FontWeight.w600)),
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: orangeButton('Next', () {
+                child: orangeButton(
+                    en ? 'Next' : 'आगे', () {
                   setState(() => step = LoginStep.otp);
                 }),
               ),
@@ -289,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget otpForm() {
+  Widget otpForm(bool en) {
     return Column(
       children: [
         const SizedBox(height: 24),
@@ -311,67 +274,59 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         const SizedBox(height: 32),
-        orangeButton('NEXT', () {
-          Navigator.pushReplacementNamed(context, '/home');
-        }),
+        orangeButton(en ? 'NEXT' : 'आगे',
+            () => Navigator.pushReplacementNamed(context, '/home')),
         const SizedBox(height: 14),
-        Text.rich(
-          TextSpan(
-            text: 'Didn’t receive the code? ',
-            style: TextStyle(color: textDark),
-            children: [
-              TextSpan(
-                text: 'Resend (30s)',
-                style: TextStyle(color: primaryOrange),
-              ),
-            ],
-          ),
+        Text(
+          en
+              ? 'Didn’t receive the code? Resend (30s)'
+              : 'कोड नहीं मिला? पुनः भेजें (30 सेकंड)',
+          style: TextStyle(color: textDark),
         ),
       ],
     );
   }
 
-  Widget terms() {
-    return Text.rich(
-      TextSpan(
-        text: 'By clicking Sign In, you agree with our ',
-        style: TextStyle(fontSize: 12, color: textGrey),
-        children: const [
-          TextSpan(
-            text: 'Terms and Conditions',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          TextSpan(text: ' and '),
-          TextSpan(
-            text: 'Privacy Policy',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ],
-      ),
+  Widget terms(bool en) {
+    return Text(
+      en
+          ? 'By clicking Sign In, you agree with our Terms and Privacy Policy'
+          : 'साइन इन करने पर आप हमारी शर्तों और गोपनीयता नीति से सहमत होते हैं',
       textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 12, color: textGrey),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Image.asset('assets/logo.png', height: 60),
-              const SizedBox(height: 24),
-              header(),
-              const SizedBox(height: 28),
-              content(),
-            ],
+    return ValueListenableBuilder<bool>(
+      valueListenable: languageController,
+      builder: (context, en, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            actions: const [
+  LanguageToggleButton(),
+],
+
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/logo.png', height: 60),
+                const SizedBox(height: 24),
+                header(en),
+                const SizedBox(height: 28),
+                content(en),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

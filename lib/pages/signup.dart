@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import '../components/language_controller.dart';
+import '../components/language_toggle_button.dart';
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -33,7 +34,6 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  // 🔥 Input Decoration
   InputDecoration inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
@@ -57,7 +57,6 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 🏷️ Labeled TextField (USED EVERYWHERE)
   Widget labeledTextField({
     required String label,
     required String hint,
@@ -68,14 +67,11 @@ class _SignupPageState extends State<SignupPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: textDark,
-          ),
-        ),
+        Text(label,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: textDark)),
         const SizedBox(height: 6),
         TextField(
           obscureText: obscureText,
@@ -90,19 +86,15 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 🔽 Dropdown Field
   Widget dropdownField(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: textDark,
-          ),
-        ),
+        Text(label,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: textDark)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
           value: value,
@@ -115,14 +107,12 @@ class _SignupPageState extends State<SignupPage> {
           onChanged: (_) {},
           decoration: inputDecoration(label),
           icon: Icon(Icons.keyboard_arrow_down, color: textGrey),
-          dropdownColor: Colors.white,
         ),
         const SizedBox(height: 16),
       ],
     );
   }
 
-  // 🟧 Button
   Widget orangeButton(String text, VoidCallback onTap) {
     return SizedBox(
       width: double.infinity,
@@ -130,52 +120,32 @@ class _SignupPageState extends State<SignupPage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryOrange,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         onPressed: onTap,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
+        child: Text(text,
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white)),
       ),
     );
   }
 
-  // 🔰 Header
-  Widget logoHeader({String? subtitle}) {
+  Widget logoHeader(bool en, {String? subtitle}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.only(left: 4),
-          child: Image.asset(
-            'assets/logo.png',
-            height: 60,
-          ),
-        ),
+        Image.asset('assets/logo.png', height: 60),
         const SizedBox(height: 24),
-        RichText(
-          text: TextSpan(
-            text: 'Welcome ',
-            style: TextStyle(
-              color: textDark,
+        Text(
+          en ? 'Welcome Community' : 'समुदाय में आपका स्वागत है',
+          style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-            ),
-            children: [
-              TextSpan(
-                text: 'Community',
-                style: TextStyle(color: primaryOrange),
-              ),
-            ],
-          ),
+              color: textDark),
         ),
         if (subtitle != null) ...[
           const SizedBox(height: 6),
@@ -186,7 +156,6 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 📱 Responsive Wrapper
   Widget pageWrapper(Widget child) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -194,26 +163,34 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 📄 PAGE 1
-  Widget pageBasicDetails() {
+  // PAGE 1
+  Widget pageBasicDetails(bool en) {
     return pageWrapper(
       Column(
         children: [
-          logoHeader(subtitle: 'Please enter your sign up details.'),
-          labeledTextField(label: 'Name', hint: 'Enter Name'),
-          labeledTextField(
-            label: 'Mobile Number',
-            hint: 'Enter Mobile Number',
-            keyboardType: TextInputType.phone,
+          logoHeader(
+            en,
+            subtitle: en
+                ? 'Please enter your sign up details.'
+                : 'कृपया अपनी साइन अप जानकारी दर्ज करें।',
           ),
           labeledTextField(
-            label: 'Email',
-            hint: 'thisand@that.com',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          dropdownField('Gender', 'Male'),
-          dropdownField('Marital Status', 'Single'),
-          orangeButton('Save and Continue', () {
+              label: en ? 'Name' : 'नाम',
+              hint: en ? 'Enter Name' : 'नाम दर्ज करें'),
+          labeledTextField(
+              label: en ? 'Mobile Number' : 'मोबाइल नंबर',
+              hint: en ? 'Enter Mobile Number' : 'मोबाइल नंबर दर्ज करें',
+              keyboardType: TextInputType.phone),
+          labeledTextField(
+              label: en ? 'Email' : 'ईमेल',
+              hint: 'thisand@that.com',
+              keyboardType: TextInputType.emailAddress),
+          dropdownField(en ? 'Gender' : 'लिंग', en ? 'Male' : 'पुरुष'),
+          dropdownField(
+              en ? 'Marital Status' : 'वैवाहिक स्थिति',
+              en ? 'Single' : 'अविवाहित'),
+          orangeButton(
+              en ? 'Save and Continue' : 'सेव करें और आगे बढ़ें', () {
             currentPage = 1;
             nextPage();
           }),
@@ -222,18 +199,25 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 📄 PAGE 2
-  Widget pageCommunityDetails() {
+  // PAGE 2
+  Widget pageCommunityDetails(bool en) {
     return pageWrapper(
       Column(
         children: [
-          logoHeader(subtitle: 'Please enter your sign up details.'),
-          dropdownField('Religion', 'Hindu'),
-          dropdownField('Caste', 'XYZ'),
-          dropdownField('Sub Caste', 'XYZ'),
-          dropdownField('Family Status', 'Joint'),
-          dropdownField('Family Type', 'Select'),
-          orangeButton('Save and Continue', () {
+          logoHeader(
+            en,
+            subtitle: en
+                ? 'Please enter your sign up details.'
+                : 'कृपया अपनी साइन अप जानकारी दर्ज करें।',
+          ),
+          dropdownField(en ? 'Religion' : 'धर्म', 'Hindu'),
+          dropdownField(en ? 'Caste' : 'जाति', 'XYZ'),
+          dropdownField(en ? 'Sub Caste' : 'उप जाति', 'XYZ'),
+          dropdownField(en ? 'Family Status' : 'परिवार की स्थिति',
+              en ? 'Joint' : 'संयुक्त'),
+          dropdownField(en ? 'Family Type' : 'परिवार का प्रकार', 'Select'),
+          orangeButton(
+              en ? 'Save and Continue' : 'सेव करें और आगे बढ़ें', () {
             currentPage = 2;
             nextPage();
           }),
@@ -242,14 +226,16 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 📄 PAGE 3
-  Widget pageSetPassword() {
+  // PAGE 3
+  Widget pageSetPassword(bool en) {
     return pageWrapper(
       Column(
         children: [
           logoHeader(
-            subtitle:
-                'Setting your initial password is key for security; choose wisely.',
+            en,
+            subtitle: en
+                ? 'Setting your initial password is key for security.'
+                : 'सुरक्षा के लिए पासवर्ड सेट करना आवश्यक है।',
           ),
           Container(
             padding: const EdgeInsets.all(16),
@@ -259,34 +245,27 @@ class _SignupPageState extends State<SignupPage> {
             ),
             child: Column(
               children: [
-                Text(
-                  'Set a Password',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
-                ),
+                Text(en ? 'Set a Password' : 'पासवर्ड सेट करें',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: textDark)),
                 const SizedBox(height: 16),
                 labeledTextField(
-                  label: 'New Password',
-                  hint: 'Enter New Password',
-                  obscureText: true,
-                  suffixIcon:
-                      Icon(Icons.visibility_off, color: textGrey),
-                ),
+                    label: en ? 'New Password' : 'नया पासवर्ड',
+                    hint:
+                        en ? 'Enter New Password' : 'नया पासवर्ड दर्ज करें',
+                    obscureText: true),
                 labeledTextField(
-                  label: 'Confirm Password',
-                  hint: 'Enter New Password',
-                  obscureText: true,
-                  suffixIcon:
-                      Icon(Icons.visibility_off, color: textGrey),
-                ),
+                    label: en ? 'Confirm Password' : 'पासवर्ड की पुष्टि करें',
+                    hint:
+                        en ? 'Confirm Password' : 'पासवर्ड पुनः दर्ज करें',
+                    obscureText: true),
               ],
             ),
           ),
           const SizedBox(height: 24),
-          orangeButton('Set Password', () {
+          orangeButton(en ? 'Set Password' : 'पासवर्ड सेट करें', () {
             currentPage = 3;
             nextPage();
           }),
@@ -295,76 +274,79 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // 📄 PAGE 4
- Widget pageOTP() {
-  return pageWrapper(
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 20),
-        RichText(
-          text: TextSpan(
-            text: 'Enter ',
-            style: TextStyle(
-              color: textDark,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-            children: [
-              TextSpan(
-                text: 'OTP',
-                style: TextStyle(color: primaryOrange),
-              ),
-            ],
+  // PAGE 4
+  Widget pageOTP(bool en) {
+    return pageWrapper(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(en ? 'Enter OTP' : 'ओटीपी दर्ज करें',
+              style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: textDark)),
+          const SizedBox(height: 8),
+          Text(
+            en
+                ? 'Please enter the 4 digit OTP sent on your number.'
+                : 'आपके नंबर पर भेजा गया 4 अंकों का ओटीपी दर्ज करें।',
+            style: TextStyle(color: textGrey),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Please enter the 4 digit OTP Code sent on\n+91826********',
-          style: TextStyle(color: textGrey),
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(
-            4,
-            (_) => SizedBox(
-              width: 60,
-              child: TextField(
-                maxLength: 1,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                decoration:
-                    inputDecoration('').copyWith(counterText: ''),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+              4,
+              (_) => SizedBox(
+                width: 60,
+                child: TextField(
+                  maxLength: 1,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  decoration:
+                      inputDecoration('').copyWith(counterText: ''),
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 32),
-        orangeButton('NEXT', () {
-          Navigator.pushReplacementNamed(context, '/home');
-        }),
-      ],
-    ),
-  );
-}
+          const SizedBox(height: 32),
+          orangeButton(en ? 'NEXT' : 'आगे', () {
+            Navigator.pushReplacementNamed(context, '/home');
+          }),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            pageBasicDetails(),
-            pageCommunityDetails(),
-            pageSetPassword(),
-            pageOTP(),
-          ],
-        ),
-      ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: languageController,
+      builder: (context, en, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            actions: const [
+  LanguageToggleButton(),
+],
+
+          ),
+          body: SafeArea(
+            child: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                pageBasicDetails(en),
+                pageCommunityDetails(en),
+                pageSetPassword(en),
+                pageOTP(en),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
