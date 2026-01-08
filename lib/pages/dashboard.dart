@@ -419,7 +419,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 fontSize: 15, color: Colors.black87),
                           ),
                           Text(
-                            'Retired Government Officer',
+                            'Software developer',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
