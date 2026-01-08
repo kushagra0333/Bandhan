@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/language_controller.dart';
 import '../components/language_toggle_button.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -62,7 +63,6 @@ class _SignupPageState extends State<SignupPage> {
     required String hint,
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
-    Widget? suffixIcon,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,16 +77,19 @@ class _SignupPageState extends State<SignupPage> {
           obscureText: obscureText,
           keyboardType: keyboardType,
           style: TextStyle(color: textDark),
-          decoration: inputDecoration(hint).copyWith(
-            suffixIcon: suffixIcon,
-          ),
+          decoration: inputDecoration(hint),
         ),
         const SizedBox(height: 16),
       ],
     );
   }
 
-  Widget dropdownField(String label, String value) {
+  /// ✅ DROPDOWN EXACTLY SAME AS FamilyDetailsScreen
+  Widget dropdownField({
+    required String label,
+    required String hint,
+    required List<String> items,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,16 +100,20 @@ class _SignupPageState extends State<SignupPage> {
                 color: textDark)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
-          value: value,
-          items: [
-            DropdownMenuItem(
-              value: value,
-              child: Text(value, style: TextStyle(color: textDark)),
-            ),
-          ],
-          onChanged: (_) {},
-          decoration: inputDecoration(label),
+          value: null,
+          dropdownColor: Colors.white,
           icon: Icon(Icons.keyboard_arrow_down, color: textGrey),
+          style: TextStyle(color: textDark, fontSize: 14),
+          decoration: inputDecoration(hint),
+          items: items
+              .map(
+                (e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(e, style: TextStyle(color: textDark)),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {},
         ),
         const SizedBox(height: 16),
       ],
@@ -185,10 +192,16 @@ class _SignupPageState extends State<SignupPage> {
               label: en ? 'Email' : 'ईमेल',
               hint: 'thisand@that.com',
               keyboardType: TextInputType.emailAddress),
-          dropdownField(en ? 'Gender' : 'लिंग', en ? 'Male' : 'पुरुष'),
           dropdownField(
-              en ? 'Marital Status' : 'वैवाहिक स्थिति',
-              en ? 'Single' : 'अविवाहित'),
+            label: en ? 'Gender' : 'लिंग',
+            hint: 'Select',
+            items: en ? ['Male', 'Female'] : ['पुरुष', 'महिला'],
+          ),
+          dropdownField(
+            label: en ? 'Marital Status' : 'वैवाहिक स्थिति',
+            hint: 'Select',
+            items: en ? ['Single', 'Married'] : ['अविवाहित', 'विवाहित'],
+          ),
           orangeButton(
               en ? 'Save and Continue' : 'सेव करें और आगे बढ़ें', () {
             currentPage = 1;
@@ -204,18 +217,27 @@ class _SignupPageState extends State<SignupPage> {
     return pageWrapper(
       Column(
         children: [
-          logoHeader(
-            en,
-            subtitle: en
-                ? 'Please enter your sign up details.'
-                : 'कृपया अपनी साइन अप जानकारी दर्ज करें।',
-          ),
-          dropdownField(en ? 'Religion' : 'धर्म', 'Hindu'),
-          dropdownField(en ? 'Caste' : 'जाति', 'XYZ'),
-          dropdownField(en ? 'Sub Caste' : 'उप जाति', 'XYZ'),
-          dropdownField(en ? 'Family Status' : 'परिवार की स्थिति',
-              en ? 'Joint' : 'संयुक्त'),
-          dropdownField(en ? 'Family Type' : 'परिवार का प्रकार', 'Select'),
+          logoHeader(en),
+          dropdownField(
+              label: en ? 'Religion' : 'धर्म',
+              hint: 'Select',
+              items: ['Hindu']),
+          dropdownField(
+              label: en ? 'Caste' : 'जाति',
+              hint: 'Select',
+              items: ['XYZ']),
+          dropdownField(
+              label: en ? 'Sub Caste' : 'उप जाति',
+              hint: 'Select',
+              items: ['XYZ']),
+          dropdownField(
+              label: en ? 'Family Status' : 'परिवार की स्थिति',
+              hint: 'Select',
+              items: en ? ['Joint', 'Nuclear'] : ['संयुक्त', 'एकल']),
+          dropdownField(
+              label: en ? 'Family Type' : 'परिवार का प्रकार',
+              hint: 'Select',
+              items: ['Select']),
           orangeButton(
               en ? 'Save and Continue' : 'सेव करें और आगे बढ़ें', () {
             currentPage = 2;
@@ -231,12 +253,7 @@ class _SignupPageState extends State<SignupPage> {
     return pageWrapper(
       Column(
         children: [
-          logoHeader(
-            en,
-            subtitle: en
-                ? 'Setting your initial password is key for security.'
-                : 'सुरक्षा के लिए पासवर्ड सेट करना आवश्यक है।',
-          ),
+          logoHeader(en),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -245,21 +262,13 @@ class _SignupPageState extends State<SignupPage> {
             ),
             child: Column(
               children: [
-                Text(en ? 'Set a Password' : 'पासवर्ड सेट करें',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: textDark)),
-                const SizedBox(height: 16),
                 labeledTextField(
                     label: en ? 'New Password' : 'नया पासवर्ड',
-                    hint:
-                        en ? 'Enter New Password' : 'नया पासवर्ड दर्ज करें',
+                    hint: '',
                     obscureText: true),
                 labeledTextField(
                     label: en ? 'Confirm Password' : 'पासवर्ड की पुष्टि करें',
-                    hint:
-                        en ? 'Confirm Password' : 'पासवर्ड पुनः दर्ज करें',
+                    hint: '',
                     obscureText: true),
               ],
             ),
@@ -285,13 +294,6 @@ class _SignupPageState extends State<SignupPage> {
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: textDark)),
-          const SizedBox(height: 8),
-          Text(
-            en
-                ? 'Please enter the 4 digit OTP sent on your number.'
-                : 'आपके नंबर पर भेजा गया 4 अंकों का ओटीपी दर्ज करें।',
-            style: TextStyle(color: textGrey),
-          ),
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,10 +330,7 @@ class _SignupPageState extends State<SignupPage> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            actions: const [
-  LanguageToggleButton(),
-],
-
+            actions: const [LanguageToggleButton()],
           ),
           body: SafeArea(
             child: PageView(
