@@ -9,6 +9,10 @@ import './pages/welcome.dart';
 import './pages/personal_detail.dart';
 import './pages/family_page.dart';
 import './pages/see_member.dart';
+import './pages/Main_dashboard.dart';
+import './pages/community.dart';
+import './pages/message.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +37,9 @@ class MyApp extends StatelessWidget {
         '/edit-details' : (context) => const PersonalDetailApp(),
         '/add-member' :(context) => const FamilyDetailsScreen(),
         '/see-member' :(context) => const SeeFamilyScreen(),
+        '/main-dashboard' :(context) => const MainDashboardPage(),
+        '/community' : (context) => const CommunityPage(),
+        '/message' : (context) => const MessagesPage(),
       },
     );
   }

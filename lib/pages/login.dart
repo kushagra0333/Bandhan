@@ -275,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 32),
         orangeButton(en ? 'NEXT' : 'आगे',
-            () => Navigator.pushReplacementNamed(context, '/home')),
+            () => Navigator.pushNamed(context, '/main-dashboard')),
         const SizedBox(height: 14),
         Text(
           en

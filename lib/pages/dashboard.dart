@@ -28,15 +28,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
   switch (option) {
     case 'edit_personal':
-      Navigator.pushNamed(context, '/edit-details');
+      Navigator.pushReplacementNamed(context, '/edit-details');
       break;
 
     case 'add_family':
-      Navigator.pushNamed(context, '/add-member');
+      Navigator.pushReplacementNamed(context, '/add-member');
       break;
 
     case 'see_family':
-      Navigator.pushNamed(context, '/see-member');
+      Navigator.pushReplacementNamed(context, '/see-member');
       break;
   }
 }
