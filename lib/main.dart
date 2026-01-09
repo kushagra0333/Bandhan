@@ -12,7 +12,7 @@ import './pages/see_member.dart';
 import './pages/Main_dashboard.dart';
 import './pages/community.dart';
 import './pages/message.dart';
-
+import './pages/main_profile.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/main-dashboard' :(context) => const MainDashboardPage(),
         '/community' : (context) => const CommunityPage(),
         '/message' : (context) => const MessagesPage(),
+        '/main-profile' : (context) => const MainProfilePage(),
       },
     );
   }

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class LanguageController extends ValueNotifier<bool> {
-  LanguageController() : super(true);
+  LanguageController() : super(false);
 
   bool get isEnglish => value;
 

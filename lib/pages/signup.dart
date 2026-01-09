@@ -313,7 +313,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
           const SizedBox(height: 32),
           orangeButton(en ? 'NEXT' : 'आगे', () {
-            Navigator.pushNamed(context, '/main-dashboard');
+            Navigator.pushReplacementNamed(context, '/main-dashboard');
           }),
         ],
       ),

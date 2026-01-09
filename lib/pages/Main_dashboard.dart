@@ -43,7 +43,7 @@ class MainDashboardPage extends StatelessWidget {
             _HomeTile(
               icon: Icons.family_restroom,
               title: 'Family\nManagement',
-              onTap: () => Navigator.pushNamed(context, '/family'),
+              onTap: () => Navigator.pushNamed(context, '/see-member'),
             ),
             _HomeTile(
               icon: Icons.favorite_border,
